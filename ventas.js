@@ -252,8 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 mode: "payment",
                 // ¡IMPORTANTE! Actualiza estas URLs a tu dominio real.
                 // Son las páginas a las que Stripe redirigirá después del pago.
-                successUrl: "https://yoscafe.vercel.app/pasareladepago/succes.html",
-                cancelUrl: "https://yoscafe.vercel.app/pasreladepago/cancel.html"
+                successUrl: "https://newyoscafe.vercel.app/pasareladepago/succes.html",
+                cancelUrl: "https://newyoscafe.vercel.app/pasareladepago/cancel.html"
             });
 
             if (result.error) {
