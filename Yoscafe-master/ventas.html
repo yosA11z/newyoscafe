@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Café Yoscafé - Nuestras Presentaciones</title>
+    <!-- Fuente Google Fonts Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="ventas.css">
+    <!-- Script de Stripe JS (Mantenido aquí en el HTML ya que es una librería global) -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- NOTA: Los estilos inline para '.message-box' han sido eliminados según tu solicitud.
+         Asegúrate de que tus estilos para estos elementos estén definidos en 'ventas.css'
+         o en otro archivo CSS enlazado. -->
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-content-wrapper container">
+            <a href="#" class="logo-link">
+                <img src="logodeyoscafeconelcafecafe-removebg-preview.png" alt="Logo Yoscafé" class="logo">
+            </a>
+            <div class="search-bar-container">
+                <input type="text" id="searchInput" placeholder="Buscar cafés, blends...">
+                <button id="searchBtn" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro-section">
+            <h2>Nuestra Cosecha, Tu Taza Perfecta</h2>
+            <p>En Yoscafé, cada grano cuenta una historia de tradición, calidad y el vibrante corazón de Colombia. Descubre nuestras presentaciones exclusivas, diseñadas para cada momento de tu día.</p>
+        </section>
+
+        <section class="products-grid">
+            <div class="product-card" data-product-id="classic" data-keywords="clásico, tradicional, medio, suave, chocolate, frutos secos, tostado">
+                <img src="Yoscafe.png" alt="Café Yoscafé Clásico" class="product-image">
+                <h3 class="product-title">Café Yoscafé Clásico</h3>
+                <p class="product-description">Un perfil de sabor balanceado, notas de chocolate y caramelo. Ideal para el día a día.</p>
+                <p class="product-price">$ 25.000 COP</p>
+                <div class="quantity-control">
+                    <label for="qty-classic">Cantidad:</label>
+                    <input type="number" id="qty-classic" value="1" min="1" class="product-quantity">
+                </div>
+                <button class="add-to-cart-btn">Añadir al Carrito</button>
+            </div>
+
+            <div class="product-card" data-product-id="premium" data-keywords="premium, selección, especial, fuerte, intenso, frutal, acidez, floral, exótico">
+                <img src="Yoscafe_bolsa.png" alt="Café Yoscafé Premium Selección" class="product-image">
+                <h3 class="product-title">Café Yoscafé Premium Selección</h3>
+                <p class="product-description">Cuerpo completo, acidez brillante y un toque frutal. Una experiencia para conocedores.</p>
+                <p class="product-price">$ 40.000 COP</p>
+                <div class="quantity-control">
+                    <label for="qty-premium">Cantidad:</label>
+                    <input type="number" id="qty-premium" value="1" min="1" class="product-quantity">
+                </div>
+                <button class="add-to-cart-btn">Añadir al Carrito</button>
+            </div>
+
+            <div class="product-card" data-product-id="decaf" data-keywords="descafeinado, suave, sin cafeína, noche, ligero, tranquilo">
+                <img src="Yoscafe_tarro.png" alt="Café Yoscafé Descafeinado" class="product-image">
+                <h3 class="product-title">Café Yoscafé Descafeinado</h3>
+                <p class="product-description">El mismo gran sabor sin la cafeína. Proceso natural y suave aroma.</p>
+                <p class="product-price">$ 30.000 COP</p>
+                <div class="quantity-control">
+                    <label for="qty-decaf">Cantidad:</label>
+                    <input type="number" id="qty-decaf" value="1" min="1" class="product-quantity">
+                </div>
+                <button class="add-to-cart-btn">Añadir al Carrito</button>
+            </div>
+        </section>
+
+        <section class="cart-summary-section">
+            <h2>Tu Orden</h2>
+            <div id="cartItems" class="cart-items">
+                <p class="empty-cart-message">Tu carrito está vacío. ¡Añade tu café favorito!</p>
+            </div>
+            <div class="cart-total">
+                <p>Total: <span id="cartTotal">$ 0 COP</span></p>
+            </div>
+            <!-- Contenedor para mensajes del sistema (ej. carga de Stripe) -->
+            <div id="systemMessageContainer" class="hidden message-box"></div>
+
+            <button id="checkoutBtn" class="checkout-btn" disabled>Proceder al Pago</button>
+
+            <!-- Formulario de Envío (Actualmente oculto y su envío a Formspree se ha separado del botón de Stripe) -->
+            <div id="checkoutFormContainer" class="checkout-form-container" style="display:none;">
+                <h3>Datos para Envío y Pago</h3>
+                <form id="shippingForm" action="https://formspree.io/f/meokeybg" method="POST">
+                    <div class="form-group">
+                        <label for="shippingName">Nombre Completo:</label>
+                        <input type="text" id="shippingName" name="Nombre_Completo" required> </div>
+                    <div class="form-group">
+                        <label for="shippingEmail">Email:</label>
+                        <input type="email" id="shippingEmail" name="Email_Cliente" required> </div>
+                    <div class="form-group">
+                        <label for="shippingPhone">Teléfono:</label>
+                        <input type="tel" id="shippingPhone" name="Telefono_Cliente" placeholder="Ej: 3101234567" required> </div>
+                    <div class="form-group">
+                        <label for="shippingAddress">Dirección de Envío:</label>
+                        <input type="text" id="shippingAddress" name="Direccion_Envio" required> </div>
+                    <div class="form-group">
+                        <label for="shippingCity">Ciudad:</label>
+                        <input type="text" id="shippingCity" name="Ciudad_Envio" required> </div>
+                    <input type="hidden" name="Detalles_Orden" id="orderDetailsHidden">
+                    <input type="hidden" name="Total_Orden" id="orderTotalHidden">
+
+                    <button type="submit" class="confirm-order-btn">Confirmar Orden y Recibir Instrucciones de Pago</button>
+                    <div id="orderMessage" class="form-message"></div>
+                    <p class="payment-instruction">
+                        Al confirmar tu orden, se enviará tu pedido. Recibirás un correo electrónico con el resumen de tu compra y las instrucciones para realizar el pago por **transferencia bancaria (Nequi/Daviplata)** o **contra entrega**.
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Yoscafé Colombia. Todos los derechos reservados.</p>
+        <p>Contacto: <a href="mailto:info@yoscafe.com">info@yoscafe.com</a></p>
+    </footer>
+
+    <!-- Aquí se enlaza tu archivo JavaScript -->
+    <script type="module" src="ventas.js"></script>
+</body>
+</html>

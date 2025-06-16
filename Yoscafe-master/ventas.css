@@ -1,0 +1,803 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+/* Se mantiene Open Sans para todo para consistencia con tu base */
+
+/* --- Variables Globales (Colores estilo Amazon, con adiciones para el header y animaciones) --- */
+:root {
+    --primary-text: #111;
+    --secondary-text: #565959;
+    --background-light: #F0F2F2;
+    --background-white: #FFFFFF;
+    --border-color: #D5D9D9;
+    --accent-blue: #007185; /* Azul original de Amazon para enlaces/detalles */
+    --button-primary-bg: #FFD814;
+    --button-primary-hover: #F7CA00;
+    --button-secondary-bg: #FFA41C;
+    --button-secondary-hover: #F2950F;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --shadow-subtle: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+
+    /* Nuevas variables para el header y animaciones */
+    --header-bg-opacity: rgba(255, 255, 255, 0.6); /* Fondo blanco semitransparente */
+    --blur-effect: blur(8px);
+    --hero-overlay-gradient: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+    --hero-text-color: #FFFFFF;
+    --product-hover-border: #FF8F00; /* Un naranja de Amazon al hover */
+    --product-hover-shadow: rgba(0, 0, 0, 0.25);
+    --button-success-animation-bg: #4CAF50; /* Verde para confirmación de botón */
+}
+
+/* --- Base y Tipografía --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px; /* Base para rems */
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--primary-text);
+    line-height: 1.5;
+    background-color: var(--background-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Importante para el parallax */
+    scroll-behavior: smooth;
+    background-color: #b49f7f;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex-grow: 1;
+    position: relative; /* Para asegurar el z-index */
+    z-index: 2; /* Contenido por encima del parallax */
+}
+
+h1, h2, h3 {
+    font-family: 'Open Sans', sans-serif; /* Manteniendo tu fuente original */
+    color: var(--primary-text);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2rem; text-align: center; margin-bottom: 30px; }
+h3 { font-size: 1.5rem; font-weight: 600; }
+
+p { margin-bottom: 10px; color: var(--secondary-text); }
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #004D5A;
+    text-decoration: underline;
+}
+
+/* --- Header Principal Flotante con efecto Frosted Glass --- */
+.main-header {
+    position: fixed; /* Header fijo */
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--header-bg-opacity); /* Blanco semitransparente */
+    backdrop-filter: var(--blur-effect); /* Efecto cristal esmerilado */
+    -webkit-backdrop-filter: var(--blur-effect); /* Compatibilidad Safari */
+    padding: 15px 40px; /* Más padding para el efecto */
+    box-shadow: 0 4px 15px var(--shadow-subtle); /* Sombra más pronunciada */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000; /* Asegurar que esté por encima de todo */
+}
+
+.header-content-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0; /* Remueve el padding para que el main-header lo controle */
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    margin-right: 30px; /* Más espacio */
+    transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.05); /* Pequeña animación al pasar el ratón */
+}
+
+.logo {
+    height: 80px; /* Logo un poco más grande */
+    width: auto;
+    object-fit: contain;
+}
+
+/* --- Barra de Búsqueda Integrada en el Header --- */
+.search-bar-container {
+    display: flex;
+    flex-grow: 1;
+    max-width: 700px; /* Más ancho */
+    margin: 0 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px var(--shadow-subtle); /* Sombra suave */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.search-bar-container:focus-within { /* Animación al hacer foco */
+    border-color: var(--accent-blue); /* Se mantiene el azul de Amazon */
+    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
+}
+
+.search-bar-container input {
+    flex-grow: 1;
+    padding: 12px 18px; /* Más padding */
+    border: none;
+    outline: none;
+    font-size: 1.05rem;
+    color: var(--primary-text);
+    background-color: var(--background-white);
+}
+
+.search-bar-container input::placeholder {
+    color: var(--secondary-text);
+    opacity: 0.8;
+}
+
+.search-button {
+    background-color: #FEBD69; /* Color de Amazon */
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1.2rem; /* Icono más grande */
+    color: var(--primary-text);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-button:hover {
+    background-color: #F3A847;
+    transform: scale(1.05); /* Pequeña animación al pasar el ratón */
+}
+
+.search-button i {
+    transition: transform 0.2s ease;
+}
+
+.search-button:active i {
+    transform: scale(0.9); /* Pequeña animación al hacer clic */
+}
+
+/* --- Sección Introductoria con Parallax (Hero) --- */
+.intro-section {
+    position: relative;
+    height: 23vh; /* Ajuste a un porcentaje de la altura de la ventana */
+    width: 100%; /* Ocupa el 100% del ancho */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--hero-text-color); /* Texto blanco para el hero */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); /* Sombra para el texto */
+    overflow: hidden; /* Para el efecto parallax */
+    margin-top: 90px; /* Ajusta el margen superior para que no quede detrás del header fijo */
+    margin-bottom: 50px; /* Espacio antes de la cuadrícula de productos */
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra para el hero */
+    border-radius: 15px;
+}
+
+.intro-section::before { /* Capa para la imagen de fondo con parallax */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Para que se mueva más */
+    background-image: url('https://via.placeholder.com/1600x900/CCCCCC/888888?text=Fondo+Parallax'); /* **¡IMPORTANTE: Cambia esta URL por una tuya!** */
+    background-size: cover;
+    background-position: center bottom;
+    will-change: transform;
+    animation: parallaxScroll 100s linear infinite alternate; /* Movimiento lento y continuo */
+    z-index: 1;
+}
+
+.intro-section::after { /* Capa de superposición para contraste */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--hero-overlay-gradient);
+    z-index: 1;
+}
+
+.intro-section h2, .intro-section p {
+    position: relative;
+    z-index: 2;
+    color: var(--hero-text-color);
+}
+
+.intro-section h2 {
+    font-size: 2.5rem; /* Tamaño grande para el título principal */
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: textReveal 2s forwards; /* Animación de texto */
+    animation-delay: 0.5s;
+}
+
+.intro-section p {
+    max-width: 900px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    opacity: 0;
+    animation: textReveal 2s forwards;
+    animation-delay: 1.5s;
+}
+
+/* --- Animaciones del Hero --- */
+@keyframes parallaxScroll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-20%); } /* Ajusta el rango de movimiento */
+}
+
+@keyframes textReveal {
+    0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* --- Grid de Productos con Animaciones --- */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px; /* Un poco más de espacio */
+    margin-bottom: 40px;
+    padding: 10px 0; /* Padding para evitar que las sombras se corten */
+}
+
+.product-card {
+    background-color: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px var(--shadow-subtle);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease-in-out; /* Transición general más suave */
+    position: relative;
+    overflow: hidden; /* Para el efecto de brillo */
+    background-color: #E8DCCA;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 20px var(--product-hover-shadow); /* Sombra más profunda */
+    transform: translateY(-5px); /* Efecto de elevación */
+    border-color: var(--product-hover-border); /* Borde de acento de Amazon */
+}
+
+.product-image {
+    max-width: 100%;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05); /* Ligero zoom en la imagen al pasar el ratón */
+}
+
+.product-title {
+    color: var(--primary-text);
+    margin-bottom: 8px;
+    font-size: 1.3rem;
+    position: relative; /* Para animaciones de texto */
+    overflow: hidden;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    margin-bottom: 12px;
+    flex-grow: 1;
+    min-height: 40px;
+    display: flex; /* Para centrar texto verticalmente */
+    align-items: center;
+    justify-content: center;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-text); /* Se mantiene tu color original */
+    margin-bottom: 15px;
+    position: relative; /* Para animaciones */
+}
+
+/* Animación de pulso sutil en el precio al pasar el ratón */
+.product-card:hover .product-price {
+    animation: pulseScale 0.6s infinite alternate;
+}
+
+@keyframes pulseScale {
+    from { transform: scale(1); }
+    to { transform: scale(1.03); } /* Pulso sutil */
+}
+
+.quantity-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 8px; /* Espacio entre label e input */
+}
+
+.quantity-control label {
+    margin-right: 0; /* Remueve el margen derecho si hay gap */
+    font-weight: 600;
+    color: var(--secondary-text);
+    font-size: 0.95rem;
+}
+
+.product-quantity {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+    -moz-appearance: textfield;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.product-quantity:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
+    outline: none;
+}
+.product-quantity::-webkit-outer-spin-button,
+.product-quantity::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --- Botones (Estilo Amazon con Animación de Carga/Confirmación) --- */
+.add-to-cart-btn,
+.checkout-btn,
+.confirm-order-btn {
+    background-color: var(--button-secondary-bg);
+    color: var(--primary-text);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: 1px solid #c97e0b;
+    border-radius: 7px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px var(--shadow-subtle);
+    transition: all 0.3s ease; /* Transición para todos los estados */
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden; /* Para ocultar el contenido durante la animación */
+}
+
+.add-to-cart-btn:hover,
+.checkout-btn:hover,
+.confirm-order-btn:hover {
+    background-color: var(--button-secondary-hover);
+    border-color: #ad710b;
+    transform: translateY(-2px); /* Pequeña elevación */
+    box-shadow: 0 3px 8px var(--shadow-medium);
+}
+
+.checkout-btn {
+    background-color: var(--button-primary-bg);
+    border-color: #c9ab0b;
+}
+
+.checkout-btn:hover {
+    background-color: var(--button-primary-hover);
+    border-color: #a3930b;
+}
+
+.checkout-btn:disabled {
+    background-color: #e3e6e6;
+    border-color: #B4B9B9;
+    color: #565959;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Estado de cargando */
+.add-to-cart-btn.loading {
+    background-color: #888; /* Gris durante la carga */
+    pointer-events: none; /* Deshabilitar clics */
+    color: transparent; /* Ocultar el texto */
+}
+
+.add-to-cart-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid var(--background-white);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Estado de completado */
+.add-to-cart-btn.added {
+    background-color: var(--button-success-animation-bg); /* Verde de éxito */
+    box-shadow: 0 3px 8px rgba(76, 175, 80, 0.4);
+    color: transparent; /* Ocultar el texto */
+}
+
+.add-to-cart-btn.added::after {
+    content: '\f00c'; /* Icono de tick de Font Awesome */
+    font-family: 'Font Awesome 6 Free'; /* Asegúrate de tener Font Awesome */
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--background-white);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    animation: checkmarkAppear 0.4s ease-out;
+}
+
+/* Los estados `loading` y `added` ocultarán el texto original del botón */
+.add-to-cart-btn.loading span,
+.add-to-cart-btn.added span {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Keyframes para las animaciones del botón */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes checkmarkAppear {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    80% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* --- Resumen del Carrito con Animaciones --- */
+.cart-summary-section {
+    background-color: var(--background-white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px var(--shadow-subtle);
+    padding: 30px;
+    margin-bottom: 40px;
+    background-color: #E8DCCA;
+}
+
+.cart-summary-section h2 {
+    color: var(--primary-text);
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.cart-items {
+    min-height: 80px;
+    margin-bottom: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.empty-cart-message {
+    color: var(--secondary-text);
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+    opacity: 0;
+    animation: fadeIn 0.8s forwards; /* Animación al aparecer */
+    animation-delay: 0.2s;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.05); /* Borde punteado suave */
+    animation: slideInLeft 0.5s ease-out; /* Animación al añadir item */
+    position: relative;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.item-details span {
+    font-weight: 600;
+    color: var(--primary-text);
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: var(--accent-blue);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.remove-item-btn:hover {
+    color: #C7511F;
+    text-decoration: underline;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-text);
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color); /* Se mantiene tu borde original */
+    position: relative;
+    animation: fadeIn 1s forwards;
+    animation-delay: 0.5s;
+}
+
+/* --- Formulario de Envío (Checkout) con Animaciones --- */
+.checkout-form-container {
+    background-color: var(--background-white);
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 25px;
+    box-shadow: 0 1px 3px var(--shadow-subtle);
+    border: 1px solid var(--border-color);
+    opacity: 0; /* Para animación de entrada */
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.8s forwards;
+    animation-delay: 0.3s;
+}
+
+.checkout-form-container h3 {
+    text-align: left;
+    color: var(--primary-text);
+    margin-bottom: 20px;
+    font-weight: 700;
+    position: relative;
+}
+
+.checkout-form-container .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.checkout-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--primary-text);
+    font-size: 0.9rem;
+}
+
+.checkout-form-container input[type="text"],
+.checkout-form-container input[type="email"],
+.checkout-form-container input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #fff;
+    color: var(--primary-text);
+}
+
+.checkout-form-container input:focus {
+    border-color: var(--accent-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
+}
+
+.form-message {
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    opacity: 0; /* Para animación de entrada */
+    transform: translateY(10px);
+    animation: fadeInSlideUp 0.6s forwards;
+    animation-delay: 0.1s;
+}
+
+.form-message.success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.form-message.error {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.payment-instruction {
+    font-size: 0.9rem;
+    color: var(--secondary-text);
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: var(--background-light);
+    border-radius: 4px;
+    border: 1px dashed var(--border-color);
+}
+
+/* --- Footer --- */
+.main-footer {
+    background-color: var(--background-white);
+    color: var(--secondary-text);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.85rem;
+    margin-top: auto;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -1px 2px var(--shadow-subtle);
+}
+
+.main-footer a {
+    color: var(--accent-blue);
+}
+
+.main-footer a:hover {
+    color: #004D5A;
+}
+
+/* --- Keyframe Animations (globales) --- */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+---
+## Responsive Design
+
+He ajustado las media queries para una mejor adaptabilidad:
+
+### Media Query para Tablets y Pantallas Pequeñas (max-width: 992px)
+```css
+@media (max-width: 992px) {
+    .container {
+        padding: 0 20px; /* Un poco más de padding lateral para tablets */
+    }
+
+    .main-header {
+        padding: 10px 20px; /* Ajuste del padding */
+    }
+
+    .logo {
+        height: 65px; /* Logo ligeramente más pequeño */
+    }
+
+    /* Ajustes para el header en pantallas más pequeñas */
+    .header-content-wrapper {
+        flex-direction: column; /* Apilar elementos */
+        align-items: center;
+        gap: 15px; /* Espacio entre el logo y la barra de búsqueda */
+    }
+
+    .logo-link {
+        margin-right: 0; /* Centrar el logo si se apila */
+    }
+
+    .search-bar-container {
+        max-width: 90%; /* Limitar el ancho de la barra de búsqueda en tablets */
+        margin: 0 auto; /* Centrar la barra de búsqueda */
+    }
+
+    .search-bar-container input {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+
+    .search-button {
+        padding: 10px 15px;
+        font-size: 1.1rem;
+    }
+
+    .intro-section {
+        height: 45vh; /* Ajuste para tablets */
+        margin-top: 120px; /* Más espacio para el header apilado */
+        margin-bottom: 35px;
+    }
+
+    .intro-section h2 {
+        font-size: 2.2rem;
+    }
+
+    .intro-section p {
+        font-size: 1rem;
+    }
+
+    h1 { font-size: 2.4rem; }
+    h2 { font-size: 1.8rem; }
+    h3 { font-size: 1.4rem; }
+
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Columnas más pequeñas en tablets */
+        gap: 20px;
+    }
+
+    .product-image {
+        height: 150px;
+    }
+
+    .product-title {
+        font-size: 1.1rem;
+    }
+
+    .product-price {
+        font-size: 1.1rem;
+    }
+
+    .add-to-cart-btn,
+    .checkout-btn,
+    .confirm-order-btn {
+        font-size: 0.95rem;
+        padding: 10px 15px;
+    }
+
+    .cart-summary-section,
+    .checkout-form-container {
+        padding: 25px;
+    }
+
+    .cart-total {
+        font-size: 1.2rem;
+    }
+}

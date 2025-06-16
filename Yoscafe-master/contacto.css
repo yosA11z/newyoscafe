@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-brown: #6b3e0f; 
+    --secondary-brown: #8a5a2b; 
+    --cream-light: #fdfaf5; 
+    --off-white: #f5f2ec; 
+    --accent-blue-green: #5a8a86; 
+    --text-dark: #333333;
+    --text-light: #fdfdfd;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --shadow-soft: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --shadow-strong: rgba(0, 0, 0, 0.35);
+    --button-gradient-start: #8d6b46; 
+    --button-gradient-end: #6b3e0f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--primary-brown);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--off-white) 0%, var(--cream-light) 100%);
+    animation: none;
+    overflow: auto;
+}
+
+.container {
+    background: var(--cream-light);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    padding: 30px 40px; 
+    box-shadow: 0 10px 25px var(--shadow-medium);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInSlideUp 0.8s ease-out forwards 0.2s;
+}
+
+@keyframes fadeInSlideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px var(--shadow-strong);
+}
+
+header h1 {
+    margin: 0 0 8px; 
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    font-family: 'Merriweather', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+header p {
+    margin: 0 0 25px; 
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--secondary-brown);
+    opacity: 0.9;
+}
+
+.contact-info {
+    margin-bottom: 25px; 
+    padding-bottom: 15px; 
+    border-bottom: 1px dashed var(--border-subtle);
+}
+
+.contact-info h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px; 
+    color: var(--primary-brown);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px; 
+    font-family: 'Merriweather', serif;
+}
+
+.contact-info h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-blue-green);
+    border-radius: 1px;
+}
+
+.contact-info p {
+    margin: 4px 0; 
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+.contact-info a {
+    color: var(--primary-brown);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.contact-info a:hover {
+    color: var(--accent-blue-green);
+    transform: translateY(-2px);
+}
+
+.form-section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 15px; 
+    color: var(--primary-brown);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px; 
+    font-family: 'Merriweather', serif;
+}
+
+.form-section h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-blue-green);
+    border-radius: 1px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+}
+
+label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 10px 15px; 
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    resize: vertical;
+    background-color: var(--off-white);
+    color: var(--text-dark);
+    font-family: 'Open Sans', sans-serif;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+textarea::placeholder {
+    color: #999;
+    opacity: 0.8;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+    border-color: var(--accent-blue-green);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(90, 138, 134, 0.3);
+    background-color: #ffffff;
+}
+
+button {
+    background: linear-gradient(45deg, var(--button-gradient-start), var(--button-gradient-end));
+    color: var(--text-light);
+    font-size: 1.1rem; 
+    font-weight: 700;
+    padding: 12px 20px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px var(--shadow-soft);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    letter-spacing: 0.5px; 
+    font-family: 'Open Sans', sans-serif;
+}
+
+button:hover {
+    background: linear-gradient(45deg, var(--button-gradient-end), var(--button-gradient-start));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px var(--shadow-medium);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px var(--shadow-soft);
+}
+
+.form-message {
+    margin-top: 10px; 
+    font-weight: 600;
+    font-size: 0.9rem; 
+    text-align: center;
+    padding: 8px 12px; 
+    border-radius: 6px;
+}
+
+.form-message.success {
+    background-color: rgba(144, 238, 144, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.form-message.error {
+    background-color: rgba(255, 99, 71, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+@media (max-width: 600px) {
+    .container {
+        
+        padding: 25px 20px; 
+    }
+
+    header h1 {
+        font-size: 2.1rem; 
+    }
+
+    header p {
+        margin-bottom: 15px; 
+    }
+
+    .contact-info h2,
+    .form-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .contact-info p,
+    .contact-info a,
+    label {
+        font-size: 0.85rem; 
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        padding: 8px 10px; 
+        font-size: 0.85rem;
+    }
+
+    form {
+        gap: 12px; 
+    }
+
+    .form-group {
+        gap: 3px; 
+    }
+
+    button {
+        font-size: 0.95rem;
+        padding: 10px; 
+    }
+
+    .form-message {
+        font-size: 0.85rem; 
+        padding: 6px 10px;
+    }
+}
