@@ -837,3 +837,11 @@ body {
         font-size: 0.9rem;
     }
 }
+
+
+
+
+
+.add-to-cart-btn{
+    background-color: var(--epic-button-bg);
+}
