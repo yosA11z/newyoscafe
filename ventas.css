@@ -1,541 +1,476 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
-/* Se mantiene Open Sans para todo para consistencia con tu base */
-
-/* --- Variables Globales (Colores estilo Amazon, con adiciones para el header y animaciones) --- */
+/* --- Variables de Color (Inspirado en Epic Games Store) --- */
 :root {
-    --primary-text: #111;
-    --secondary-text: #565959;
-    --background-light: #F0F2F2;
-    --background-white: #FFFFFF;
-    --border-color: #D5D9D9;
-    --accent-blue: #007185; /* Azul original de Amazon para enlaces/detalles */
-    --button-primary-bg: #FFD814;
-    --button-primary-hover: #F7CA00;
-    --button-secondary-bg: #FFA41C;
-    --button-secondary-hover: #F2950F;
-    --success-color: #28a745;
-    --error-color: #dc3545;
-    --shadow-subtle: rgba(0, 0, 0, 0.08);
-    --shadow-medium: rgba(0, 0, 0, 0.15);
-
-    /* Nuevas variables para el header y animaciones */
-    --header-bg-opacity: rgba(255, 255, 255, 0.6); /* Fondo blanco semitransparente */
-    --blur-effect: blur(8px);
-    --hero-overlay-gradient: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-    --hero-text-color: #FFFFFF;
-    --product-hover-border: #FF8F00; /* Un naranja de Amazon al hover */
-    --product-hover-shadow: rgba(0, 0, 0, 0.25);
-    --button-success-animation-bg: #4CAF50; /* Verde para confirmación de botón */
+    --epic-bg-dark: #121212; /* Fondo principal muy oscuro */
+    --epic-bg-medium: #1a1a1a; /* Fondo de contenedores y cards */
+    --epic-text-light: #f4f4f4; /* Texto principal claro */
+    --epic-text-muted: #888888; /* Texto secundario y descripciones */
+    --epic-accent-blue: #007bff; /* Un azul para enlaces o acentos, si es necesario */
+    --epic-border-gray: #303030; /* Bordes sutiles */
+    --epic-hover-bg: #2a2a2a; /* Fondo al pasar el mouse */
+    --epic-button-bg: #007bff; /* Color de botón primario (opcional, Epic usa tonos grises) */
+    --epic-button-text: #ffffff;
+    --epic-search-bg: #222222; /* Fondo de la barra de búsqueda */
+    --epic-price-color: #f4f4f4; /* Color del precio */
+    --epic-card-hover-shadow: rgba(0, 0, 0, 0.7);
+    --epic-section-title: #f4f4f4;
 }
 
-/* --- Base y Tipografía --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    font-size: 16px; /* Base para rems */
-}
-
+/* --- Estilos Generales --- */
 body {
     font-family: 'Open Sans', sans-serif;
-    color: var(--primary-text);
-    line-height: 1.5;
-    background-color: var(--background-light);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden; /* Importante para el parallax */
-    scroll-behavior: smooth;
-    background-color: #b49f7f;
+    margin: 0;
+    padding: 0;
+    background-color: var(--epic-bg-dark);
+    color: var(--epic-text-light);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-    flex-grow: 1;
-    position: relative; /* Para asegurar el z-index */
-    z-index: 2; /* Contenido por encima del parallax */
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
-h1, h2, h3 {
-    font-family: 'Open Sans', sans-serif; /* Manteniendo tu fuente original */
-    color: var(--primary-text);
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-
-h1 { font-size: 2.8rem; }
-h2 { font-size: 2rem; text-align: center; margin-bottom: 30px; }
-h3 { font-size: 1.5rem; font-weight: 600; }
-
-p { margin-bottom: 10px; color: var(--secondary-text); }
-
-a {
-    color: var(--accent-blue);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #004D5A;
-    text-decoration: underline;
-}
-
-/* --- Header Principal Flotante con efecto Frosted Glass --- */
+/* --- Header (Barra Superior Epic Games Style) --- */
 .main-header {
-    position: fixed; /* Header fijo */
-    width: 100%;
+    background-color: var(--epic-bg-dark);
+    padding: 0;
+    border-bottom: 1px solid var(--epic-border-gray);
+    position: sticky;
     top: 0;
-    left: 0;
-    background-color: var(--header-bg-opacity); /* Blanco semitransparente */
-    backdrop-filter: var(--blur-effect); /* Efecto cristal esmerilado */
-    -webkit-backdrop-filter: var(--blur-effect); /* Compatibilidad Safari */
-    padding: 15px 40px; /* Más padding para el efecto */
-    box-shadow: 0 4px 15px var(--shadow-subtle); /* Sombra más pronunciada */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 1000; /* Asegurar que esté por encima de todo */
+    z-index: 1000;
 }
 
 .header-content-wrapper {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0; /* Remueve el padding para que el main-header lo controle */
+    align-items: center;
+    padding: 10px 40px;
+    height: 60px;
+    box-sizing: border-box;
+    gap: 30px; /* Espacio entre los elementos del header */
 }
 
-.logo-link {
+.logo-link .logo {
+    height: 38px;
+    flex-shrink: 0; /* Asegura que el logo no se encoja */
+}
+
+.main-nav-simplified {
+    margin-right: auto; /* Empuja el botón "Inicio" a la izquierda del resto de elementos */
+}
+
+.nav-item-simplified {
+    background-color: transparent;
+    color: var(--epic-text-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.2s ease;
+    display: inline-block;
+}
+
+.nav-item-simplified::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--epic-text-light);
+    transition: width 0.2s ease;
+}
+
+.nav-item-simplified:hover {
+    color: var(--epic-text-light);
+}
+
+.nav-item-simplified:hover::after {
+    width: 100%;
+}
+
+/* --- Estilos para la barra de búsqueda clásica --- */
+.header-search-bar-classic {
     display: flex;
     align-items: center;
-    margin-right: 30px; /* Más espacio */
-    transition: transform 0.3s ease;
+    background-color: var(--epic-search-bg);
+    border-radius: 20px;
+    padding: 5px 15px;
+    width: 350px; /* Ancho fijo para la barra, ajusta según necesites */
+    max-width: 100%; /* Asegura que no se desborde en pantallas pequeñas */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho */
+    border: 1px solid transparent; /* Borde inicial transparente */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.logo-link:hover {
-    transform: scale(1.05); /* Pequeña animación al pasar el ratón */
+.header-search-bar-classic:focus-within { /* Nuevo: estilos cuando un elemento dentro tiene foco */
+    border-color: var(--epic-text-light); /* Borde blanco al enfocar */
+    box-shadow: 0 0 0 2px rgba(244, 244, 244, 0.2); /* Sutil sombra */
 }
 
-.logo {
-    height: 80px; /* Logo un poco más grande */
-    width: auto;
-    object-fit: contain;
-}
-
-/* --- Barra de Búsqueda Integrada en el Header --- */
-.search-bar-container {
-    display: flex;
-    flex-grow: 1;
-    max-width: 700px; /* Más ancho */
-    margin: 0 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px var(--shadow-subtle); /* Sombra suave */
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.search-bar-container:focus-within { /* Animación al hacer foco */
-    border-color: var(--accent-blue); /* Se mantiene el azul de Amazon */
-    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
-}
-
-.search-bar-container input {
-    flex-grow: 1;
-    padding: 12px 18px; /* Más padding */
+.header-search-bar-classic input {
+    flex-grow: 1; /* Permite que el input ocupe el espacio disponible */
     border: none;
+    background: transparent;
+    color: var(--epic-text-light);
+    font-size: 0.9rem;
     outline: none;
-    font-size: 1.05rem;
-    color: var(--primary-text);
-    background-color: var(--background-white);
+    padding: 5px 0; /* Padding vertical para el texto */
+    margin-right: 10px; /* Espacio entre el input y el botón */
 }
 
-.search-bar-container input::placeholder {
-    color: var(--secondary-text);
-    opacity: 0.8;
+.header-search-bar-classic input::placeholder {
+    color: var(--epic-text-muted);
 }
 
-.search-button {
-    background-color: #FEBD69; /* Color de Amazon */
+.header-search-bar-classic button {
+    background-color: transparent;
     border: none;
-    padding: 12px 20px;
+    color: var(--epic-text-muted); /* Color del icono */
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 1.2rem; /* Icono más grande */
-    color: var(--primary-text);
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    padding: 5px;
+    transition: color 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se encoja */
 }
 
-.search-button:hover {
-    background-color: #F3A847;
-    transform: scale(1.05); /* Pequeña animación al pasar el ratón */
+.header-search-bar-classic button:hover {
+    color: var(--epic-text-light); /* Cambiar color al pasar el mouse */
 }
 
-.search-button i {
-    transition: transform 0.2s ease;
-}
 
-.search-button:active i {
-    transform: scale(0.9); /* Pequeña animación al hacer clic */
-}
-
-/* --- Sección Introductoria con Parallax (Hero) --- */
-.intro-section {
-    position: relative;
-    height: 23vh; /* Ajuste a un porcentaje de la altura de la ventana */
-    width: 100%; /* Ocupa el 100% del ancho */
+.header-icons {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: var(--hero-text-color); /* Texto blanco para el hero */
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); /* Sombra para el texto */
-    overflow: hidden; /* Para el efecto parallax */
-    margin-top: 90px; /* Ajusta el margen superior para que no quede detrás del header fijo */
-    margin-bottom: 50px; /* Espacio antes de la cuadrícula de productos */
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra para el hero */
-    border-radius: 15px;
-}
-
-.intro-section::before { /* Capa para la imagen de fondo con parallax */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%; /* Para que se mueva más */
-    background-image: url('https://via.placeholder.com/1600x900/CCCCCC/888888?text=Fondo+Parallax'); /* **¡IMPORTANTE: Cambia esta URL por una tuya!** */
-    background-size: cover;
-    background-position: center bottom;
-    will-change: transform;
-    animation: parallaxScroll 100s linear infinite alternate; /* Movimiento lento y continuo */
-    z-index: 1;
-}
-
-.intro-section::after { /* Capa de superposición para contraste */
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--hero-overlay-gradient);
-    z-index: 1;
-}
-
-.intro-section h2, .intro-section p {
     position: relative;
-    z-index: 2;
-    color: var(--hero-text-color);
+    flex-shrink: 0; /* Asegura que los iconos no se encojan */
 }
 
-.intro-section h2 {
-    font-size: 2.5rem; /* Tamaño grande para el título principal */
-    margin-bottom: 20px;
-    opacity: 0;
-    animation: textReveal 2s forwards; /* Animación de texto */
-    animation-delay: 0.5s;
-}
-
-.intro-section p {
-    max-width: 900px;
+/* Estilos para el icono del carrito */
+.cart-icon-link {
+    color: var(--epic-text-light);
+    text-decoration: none;
     font-size: 1.2rem;
-    font-weight: 300;
-    opacity: 0;
-    animation: textReveal 2s forwards;
-    animation-delay: 1.5s;
+    padding: 5px;
+    transition: color 0.2s ease;
+    position: relative; /* Necesario para el cart-count */
 }
 
-/* --- Animaciones del Hero --- */
-@keyframes parallaxScroll {
-    from { transform: translateY(0); }
-    to { transform: translateY(-20%); } /* Ajusta el rango de movimiento */
+.cart-icon-link:hover {
+    color: var(--epic-text-muted);
 }
 
-@keyframes textReveal {
-    0% { opacity: 0; transform: translateY(20px); filter: blur(5px); }
-    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-
-/* --- Grid de Productos con Animaciones --- */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px; /* Un poco más de espacio */
-    margin-bottom: 40px;
-    padding: 10px 0; /* Padding para evitar que las sombras se corten */
-}
-
-.product-card {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px var(--shadow-subtle);
-    padding: 20px;
+.cart-count {
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 50%;
+    padding: 3px 6px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 18px;
     text-align: center;
+    line-height: 1;
+    pointer-events: none;
+    transform: scale(0.9);
+    opacity: 0.9;
+}
+
+/* Nuevo: Contenedor principal para el contenido de la tienda (productos y banner) */
+.main-content-wrapper {
+    /* Puedes añadir padding o margen aquí si quieres espacio alrededor de todo el contenido principal */
+    padding-top: 30px; /* Espacio entre el header y el contenido */
+    padding-bottom: 50px; /* Espacio antes del footer */
+}
+
+.store-main-content {
+    /* Por defecto, este contendrá la sección de bienvenida y productos */
+    display: block; /* Asegura que se muestre por defecto */
+}
+
+
+/* --- Sección de Bienvenida / Hero Banner --- */
+.hero-banner {
+    background-color: var(--epic-bg-medium);
+    padding: 60px 40px;
+    text-align: center;
+    margin: 30px auto;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 1200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0,123,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 4s infinite alternate;
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0,123,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 4s infinite alternate reverse;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 0.8; }
+}
+
+
+.hero-title {
+    font-size: 3rem;
+    color: var(--epic-text-light);
+    margin-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--epic-text-muted);
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-button {
+    background-color: var(--epic-button-bg);
+    color: var(--epic-button-text);
+    padding: 15px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.hero-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+
+/* --- Sección de Productos (Epic Games Style) --- */
+.store-section {
+    padding: 50px 0;
+}
+
+.section-header-epic {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    padding: 0 40px;
+}
+
+.section-title-epic {
+    font-size: 1.8rem;
+    color: var(--epic-section-title);
+    font-weight: 700;
+    display: flex;
+    align-items: baseline;
+    margin: 0;
+}
+
+.section-title-epic i {
+    font-size: 1.2rem;
+    color: var(--epic-text-muted);
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.section-title-epic:hover i {
+    color: var(--epic-text-light);
+}
+
+.products-carousel {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-wrap: wrap; /* Permite que las tarjetas se envuelvan a la siguiente línea si no caben */
+    gap: 20px;
+    padding: 10px 40px;
+    overflow-x: auto; /* Para el desplazamiento horizontal en pantallas más pequeñas */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Oculta la barra de desplazamiento para Firefox */
+    -ms-overflow-style: none; /* Oculta la barra de desplazamiento para IE/Edge */
+}
+
+.products-carousel::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento para Chrome/Safari */
+}
+
+
+/* --- Estilo de Tarjeta de Producto (Aplicando a .product-card) --- */
+.product-card {
+    flex-shrink: 0;
+    width: 280px;
+    background-color: var(--epic-bg-medium);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: all 0.3s ease-in-out; /* Transición general más suave */
+    cursor: pointer;
     position: relative;
-    overflow: hidden; /* Para el efecto de brillo */
-    background-color: #E8DCCA;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    scroll-snap-align: start;
 }
 
 .product-card:hover {
-    box-shadow: 0 8px 20px var(--product-hover-shadow); /* Sombra más profunda */
-    transform: translateY(-5px); /* Efecto de elevación */
-    border-color: var(--product-hover-border); /* Borde de acento de Amazon */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--epic-card-hover-shadow);
 }
 
-.product-image {
-    max-width: 100%;
-    height: 180px;
-    object-fit: contain;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
+.product-image-epic {
+    width: 100%;
+    height: auto; /* Permite que la altura se ajuste automáticamente para mantener la relación de aspecto */
+    object-fit: contain; /* Asegura que la imagen completa sea visible, escalándola si es necesario para que quepa dentro del contenedor */
+    padding: 10px; /* Añade un poco de padding para que la imagen no toque los bordes del card */
+    box-sizing: border-box; /* Incluye el padding en el ancho/alto del elemento */
+    display: block;
 }
 
-.product-card:hover .product-image {
-    transform: scale(1.05); /* Ligero zoom en la imagen al pasar el ratón */
-}
-
-.product-title {
-    color: var(--primary-text);
-    margin-bottom: 8px;
-    font-size: 1.3rem;
-    position: relative; /* Para animaciones de texto */
-    overflow: hidden;
-}
-
-.product-description {
-    font-size: 0.9rem;
-    color: var(--secondary-text);
-    margin-bottom: 12px;
-    flex-grow: 1;
-    min-height: 40px;
-    display: flex; /* Para centrar texto verticalmente */
-    align-items: center;
-    justify-content: center;
-}
-
-.product-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-text); /* Se mantiene tu color original */
-    margin-bottom: 15px;
-    position: relative; /* Para animaciones */
-}
-
-/* Animación de pulso sutil en el precio al pasar el ratón */
-.product-card:hover .product-price {
-    animation: pulseScale 0.6s infinite alternate;
-}
-
-@keyframes pulseScale {
-    from { transform: scale(1); }
-    to { transform: scale(1.03); } /* Pulso sutil */
-}
-
-.quantity-control {
+.product-info-epic {
+    padding: 15px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 8px; /* Espacio entre label e input */
+    flex-direction: column;
+    flex-grow: 1;
 }
 
-.quantity-control label {
-    margin-right: 0; /* Remueve el margen derecho si hay gap */
+.product-type-epic {
+    font-size: 0.85rem;
+    color: var(--epic-text-muted);
+    margin: 0 0 5px;
+    text-transform: uppercase;
+}
+
+.product-title-epic {
+    font-size: 1.15rem;
+    color: var(--epic-text-light);
+    margin: 0 0 10px;
     font-weight: 600;
-    color: var(--secondary-text);
-    font-size: 0.95rem;
 }
 
-.product-quantity {
-    width: 60px;
-    padding: 8px;
-    border: 1px solid var(--border-color);
+.product-price-epic {
+    font-size: 1.05rem;
+    color: var(--epic-price-color);
+    font-weight: 600;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.product-card .quantity-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: var(--epic-text-muted);
+    font-size: 0.9rem;
+}
+
+.product-card .quantity-control label {
+    margin-right: 8px;
+}
+
+.product-card .product-quantity {
+    width: 50px;
+    padding: 6px;
+    border: 1px solid var(--epic-border-gray);
     border-radius: 4px;
-    font-size: 1rem;
+    background-color: #222;
+    color: var(--epic-text-light);
+    font-size: 0.9rem;
     text-align: center;
     -moz-appearance: textfield;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.product-quantity:focus {
-    border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
-    outline: none;
-}
-.product-quantity::-webkit-outer-spin-button,
-.product-quantity::-webkit-inner-spin-button {
+.product-card .product-quantity::-webkit-outer-spin-button,
+.product-card .product-quantity::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* --- Botones (Estilo Amazon con Animación de Carga/Confirmación) --- */
-.add-to-cart-btn,
-.checkout-btn,
-.confirm-order-btn {
-    background-color: var(--button-secondary-bg);
-    color: var(--primary-text);
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 10px 20px;
-    border: 1px solid #c97e0b;
-    border-radius: 7px;
+.add-to-cart-btn {
+    background-color: #383838;
+    color: var(--epic-button-text);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 1px 2px var(--shadow-subtle);
-    transition: all 0.3s ease; /* Transición para todos los estados */
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
     width: 100%;
-    margin-top: 10px;
-    position: relative;
-    overflow: hidden; /* Para ocultar el contenido durante la animación */
 }
 
-.add-to-cart-btn:hover,
-.checkout-btn:hover,
-.confirm-order-btn:hover {
-    background-color: var(--button-secondary-hover);
-    border-color: #ad710b;
-    transform: translateY(-2px); /* Pequeña elevación */
-    box-shadow: 0 3px 8px var(--shadow-medium);
+.add-to-cart-btn:hover {
+    background-color: #505050;
 }
 
-.checkout-btn {
-    background-color: var(--button-primary-bg);
-    border-color: #c9ab0b;
-}
 
-.checkout-btn:hover {
-    background-color: var(--button-primary-hover);
-    border-color: #a3930b;
-}
-
-.checkout-btn:disabled {
-    background-color: #e3e6e6;
-    border-color: #B4B9B9;
-    color: #565959;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-}
-
-/* Estado de cargando */
-.add-to-cart-btn.loading {
-    background-color: #888; /* Gris durante la carga */
-    pointer-events: none; /* Deshabilitar clics */
-    color: transparent; /* Ocultar el texto */
-}
-
-.add-to-cart-btn.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    margin-left: -10px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid var(--background-white);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Estado de completado */
-.add-to-cart-btn.added {
-    background-color: var(--button-success-animation-bg); /* Verde de éxito */
-    box-shadow: 0 3px 8px rgba(76, 175, 80, 0.4);
-    color: transparent; /* Ocultar el texto */
-}
-
-.add-to-cart-btn.added::after {
-    content: '\f00c'; /* Icono de tick de Font Awesome */
-    font-family: 'Font Awesome 6 Free'; /* Asegúrate de tener Font Awesome */
-    font-weight: 900;
-    font-size: 1.2rem;
-    color: var(--background-white);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    animation: checkmarkAppear 0.4s ease-out;
-}
-
-/* Los estados `loading` y `added` ocultarán el texto original del botón */
-.add-to-cart-btn.loading span,
-.add-to-cart-btn.added span {
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-/* Keyframes para las animaciones del botón */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes checkmarkAppear {
-    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-    80% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-}
-
-/* --- Resumen del Carrito con Animaciones --- */
+/* --- Carrito de Compras (Ahora manejado por JS para visibilidad) --- */
 .cart-summary-section {
-    background-color: var(--background-white);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px var(--shadow-subtle);
+    background-color: var(--epic-bg-medium);
     padding: 30px;
-    margin-bottom: 40px;
-    background-color: #E8DCCA;
+    border-radius: 8px;
+    margin-top: 50px;
+    border: 1px solid var(--epic-border-gray);
+    color: var(--epic-text-light);
+    max-width: 800px; /* Ancho máximo para el carrito para que no se extienda demasiado */
+    margin-left: auto;
+    margin-right: auto;
+    /* display: none; /* Se maneja en el HTML, pero si lo quitamos de allí, se pone aquí */
 }
 
 .cart-summary-section h2 {
-    color: var(--primary-text);
+    color: var(--epic-text-light);
     margin-bottom: 20px;
-    position: relative;
-    padding-bottom: 5px;
-    text-align: left;
+    font-size: 2rem;
+    text-align: center;
 }
 
 .cart-items {
-    min-height: 80px;
-    margin-bottom: 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
+    background-color: #222;
+    border: 1px solid var(--epic-border-gray);
+    border-radius: 5px;
+    padding: 15px;
+    min-height: 100px;
+    margin-bottom: 20px;
 }
 
 .empty-cart-message {
-    color: var(--secondary-text);
-    font-style: italic;
+    color: var(--epic-text-muted);
     text-align: center;
-    padding: 20px 0;
-    opacity: 0;
-    animation: fadeIn 0.8s forwards; /* Animación al aparecer */
-    animation-delay: 0.2s;
+    padding: 20px;
 }
 
 .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    font-size: 0.95rem;
-    border-bottom: 1px dotted rgba(0, 0, 0, 0.05); /* Borde punteado suave */
-    animation: slideInLeft 0.5s ease-out; /* Animación al añadir item */
-    position: relative;
+    padding: 10px 0;
+    border-bottom: 1px dashed #303030;
 }
 
 .cart-item:last-child {
@@ -544,260 +479,337 @@ a:hover {
 
 .item-details span {
     font-weight: 600;
-    color: var(--primary-text);
+    color: var(--epic-text-light);
+}
+
+.item-price {
+    font-weight: 600;
+    color: var(--epic-price-color);
+    display: flex;
+    align-items: center;
 }
 
 .remove-item-btn {
     background: none;
     border: none;
-    color: var(--accent-blue);
+    color: #f05252;
     cursor: pointer;
     font-size: 0.9rem;
-    padding: 4px 6px;
-    border-radius: 4px;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    margin-left: 15px;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
 }
 
 .remove-item-btn:hover {
-    color: #C7511F;
-    text-decoration: underline;
+    color: #ff8c8c;
+}
+
+.remove-item-btn i {
+    margin-right: 5px;
 }
 
 .cart-total {
     text-align: right;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-text);
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border-color); /* Se mantiene tu borde original */
-    position: relative;
-    animation: fadeIn 1s forwards;
-    animation-delay: 0.5s;
+    color: var(--epic-text-light);
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--epic-border-gray);
 }
 
-/* --- Formulario de Envío (Checkout) con Animaciones --- */
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--epic-button-bg);
+    color: var(--epic-button-text);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.2s ease;
+}
+
+.checkout-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.checkout-btn:disabled {
+    background-color: #383838;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* System Messages */
+.message-box {
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.message-box.hidden {
+    display: none;
+}
+
+.message-box.info {
+    background-color: #2c3e50;
+    color: #e0e0e0;
+    border-color: #34495e;
+}
+
+.message-box.success {
+    background-color: #28a745;
+    color: white;
+    border-color: #218838;
+}
+
+.message-box.error {
+    background-color: #dc3545;
+    color: white;
+    border-color: #c82333;
+}
+
+
+/* Checkout Form Container */
 .checkout-form-container {
-    background-color: var(--background-white);
-    padding: 25px;
+    background-color: var(--epic-bg-medium);
+    padding: 30px;
     border-radius: 8px;
-    margin-top: 25px;
-    box-shadow: 0 1px 3px var(--shadow-subtle);
-    border: 1px solid var(--border-color);
-    opacity: 0; /* Para animación de entrada */
-    transform: translateY(20px);
-    animation: fadeInSlideUp 0.8s forwards;
-    animation-delay: 0.3s;
+    margin-top: 30px;
+    border: 1px solid var(--epic-border-gray);
+    color: var(--epic-text-light);
 }
 
 .checkout-form-container h3 {
-    text-align: left;
-    color: var(--primary-text);
+    color: var(--epic-text-light);
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.form-group {
     margin-bottom: 20px;
-    font-weight: 700;
-    position: relative;
 }
 
-.checkout-form-container .form-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.checkout-form-container label {
+.form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    color: var(--epic-text-light);
     font-weight: 600;
-    color: var(--primary-text);
-    font-size: 0.9rem;
 }
 
-.checkout-form-container input[type="text"],
-.checkout-form-container input[type="email"],
-.checkout-form-container input[type="tel"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid var(--epic-border-gray);
+    border-radius: 5px;
+    background-color: #222;
+    color: var(--epic-text-light);
     font-size: 1rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: #fff;
-    color: var(--primary-text);
+    outline: none;
 }
 
-.checkout-form-container input:focus {
-    border-color: var(--accent-blue);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.2);
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus {
+    border-color: var(--epic-text-light);
+    box-shadow: 0 0 0 2px rgba(244, 244, 244, 0.2);
+}
+
+.confirm-order-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--epic-button-bg);
+    color: var(--epic-button-text);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: background-color 0.2s ease;
+}
+
+.confirm-order-btn:hover {
+    background-color: #0056b3;
 }
 
 .form-message {
     margin-top: 15px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: 5px;
     text-align: center;
-    padding: 10px 15px;
-    border-radius: 4px;
-    border: 1px solid transparent;
-    opacity: 0; /* Para animación de entrada */
-    transform: translateY(10px);
-    animation: fadeInSlideUp 0.6s forwards;
-    animation-delay: 0.1s;
-}
-
-.form-message.success {
-    background-color: rgba(40, 167, 69, 0.1);
-    color: var(--success-color);
-    border-color: var(--success-color);
-}
-
-.form-message.error {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: var(--error-color);
-    border-color: var(--error-color);
+    font-size: 0.95rem;
 }
 
 .payment-instruction {
-    font-size: 0.9rem;
-    color: var(--secondary-text);
-    text-align: center;
     margin-top: 20px;
-    padding: 10px 15px;
-    background-color: var(--background-light);
-    border-radius: 4px;
-    border: 1px dashed var(--border-color);
+    font-size: 0.9rem;
+    color: var(--epic-text-muted);
+    text-align: center;
+    padding: 0 10px;
 }
 
-/* --- Footer --- */
+.payment-instruction strong {
+    color: var(--epic-text-light);
+}
+
+
+/* Footer */
 .main-footer {
-    background-color: var(--background-white);
-    color: var(--secondary-text);
+    background-color: var(--epic-bg-dark);
+    color: var(--epic-text-muted);
     text-align: center;
-    padding: 20px;
-    font-size: 0.85rem;
-    margin-top: auto;
-    border-top: 1px solid var(--border-color);
-    box-shadow: 0 -1px 2px var(--shadow-subtle);
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 0.9rem;
+    border-top: 1px solid var(--epic-border-gray);
 }
 
 .main-footer a {
-    color: var(--accent-blue);
+    color: var(--epic-text-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .main-footer a:hover {
-    color: #004D5A;
+    color: var(--epic-accent-blue);
 }
 
-/* --- Keyframe Animations (globales) --- */
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
 
-@keyframes fadeInSlideUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideInLeft {
-    from { transform: translateX(-20px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
----
-## Responsive Design
-
-He ajustado las media queries para una mejor adaptabilidad:
-
-### Media Query para Tablets y Pantallas Pequeñas (max-width: 992px)
-```css
+/* --- Responsive Design --- */
 @media (max-width: 992px) {
     .container {
-        padding: 0 20px; /* Un poco más de padding lateral para tablets */
+        padding: 0 25px;
     }
 
-    .main-header {
-        padding: 10px 20px; /* Ajuste del padding */
-    }
-
-    .logo {
-        height: 65px; /* Logo ligeramente más pequeño */
-    }
-
-    /* Ajustes para el header en pantallas más pequeñas */
     .header-content-wrapper {
-        flex-direction: column; /* Apilar elementos */
-        align-items: center;
-        gap: 15px; /* Espacio entre el logo y la barra de búsqueda */
+        padding: 10px 25px;
+        flex-wrap: wrap; /* Permite que los elementos se envuelvan */
+        justify-content: center; /* Centra los elementos cuando se envuelven */
+        height: auto; /* Altura automática para que la barra de búsqueda pueda tener su propia línea */
+        gap: 15px; /* Ajuste del espacio para pantallas medianas */
     }
-
     .logo-link {
-        margin-right: 0; /* Centrar el logo si se apila */
+        flex-basis: 100%; /* El logo toma todo el ancho */
+        text-align: center;
+        margin-bottom: 10px; /* Espacio debajo del logo */
     }
 
-    .search-bar-container {
-        max-width: 90%; /* Limitar el ancho de la barra de búsqueda en tablets */
-        margin: 0 auto; /* Centrar la barra de búsqueda */
+    .main-nav-simplified {
+        margin-left: 0; /* Reinicia el margen */
+        margin-right: 0;
+        flex-basis: 100%; /* El botón de inicio toma todo el ancho */
+        text-align: center;
+    }
+    .header-search-bar-classic {
+        width: 100%; /* La barra de búsqueda toma todo el ancho disponible */
+        margin-bottom: 10px; /* Espacio debajo de la barra */
+    }
+    .header-icons {
+        margin-left: 0;
+        flex-basis: 100%; /* Los iconos toman todo el ancho */
+        justify-content: center; /* Centra los iconos */
     }
 
-    .search-bar-container input {
-        padding: 10px 15px;
-        font-size: 1rem;
+    .section-header-epic {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 25px;
     }
 
-    .search-button {
-        padding: 10px 15px;
+    .products-carousel {
+        padding: 10px 25px;
+    }
+
+    .product-card {
+        width: 240px;
+    }
+    .product-image-epic {
+        height: auto; /* Ajustado en main CSS, mantengo aquí para redundancia */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav-simplified .nav-item-simplified {
+        font-size: 0.9rem;
+        padding: 6px 0;
+    }
+    .header-search-bar-classic input {
+        font-size: 0.85rem;
+    }
+    .header-search-bar-classic button {
+        font-size: 0.9rem;
+    }
+    .cart-icon-link {
         font-size: 1.1rem;
     }
 
-    .intro-section {
-        height: 45vh; /* Ajuste para tablets */
-        margin-top: 120px; /* Más espacio para el header apilado */
-        margin-bottom: 35px;
+    .product-card {
+        width: 200px;
     }
-
-    .intro-section h2 {
-        font-size: 2.2rem;
+    .product-image-epic {
+        height: auto; /* Ajustado en main CSS, mantengo aquí para redundancia */
     }
-
-    .intro-section p {
-        font-size: 1rem;
+    .product-title-epic {
+        font-size: 1.05rem;
     }
-
-    h1 { font-size: 2.4rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.4rem; }
-
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Columnas más pequeñas en tablets */
-        gap: 20px;
-    }
-
-    .product-image {
-        height: 150px;
-    }
-
-    .product-title {
-        font-size: 1.1rem;
-    }
-
-    .product-price {
-        font-size: 1.1rem;
-    }
-
-    .add-to-cart-btn,
-    .checkout-btn,
-    .confirm-order-btn {
+    .product-price-epic {
         font-size: 0.95rem;
-        padding: 10px 15px;
+    }
+    .add-to-cart-btn {
+        font-size: 0.9rem;
+        padding: 8px 12px;
     }
 
     .cart-summary-section,
     .checkout-form-container {
-        padding: 25px;
+        padding: 20px;
     }
+}
 
-    .cart-total {
-        font-size: 1.2rem;
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    .header-content-wrapper {
+        padding: 10px 15px;
+    }
+    .logo-link .logo {
+        height: 32px;
+    }
+    .main-nav-simplified .nav-item-simplified {
+        font-size: 0.85rem;
+    }
+    .cart-icon-link {
+        font-size: 1rem;
+    }
+    .cart-count {
+        font-size: 0.6rem;
+        padding: 2px 5px;
+        min-width: 16px;
+    }
+    .product-card {
+        width: 170px;
+    }
+    .product-image-epic {
+        height: auto; /* Ajustado en main CSS, mantengo aquí para redundancia */
+    }
+    .section-title-epic {
+        font-size: 1.5rem;
+    }
+    .products-carousel {
+        padding: 10px 15px;
     }
 }

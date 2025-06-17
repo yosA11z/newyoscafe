@@ -17,11 +17,11 @@ function showSystemMessage(message, type = 'info') {
     // Elimina todas las clases de tipo antes de añadir la nueva
     systemMessageContainer.classList.remove('hidden', 'success', 'error', 'info', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800', 'bg-blue-100', 'text-blue-800');
     if (type === 'success') {
-        systemMessageContainer.classList.add('bg-green-100', 'text-green-800', 'success');
+        systemMessageContainer.classList.add('success');
     } else if (type === 'error') {
-        systemMessageContainer.classList.add('bg-red-100', 'text-red-800', 'error');
+        systemMessageContainer.classList.add('error');
     } else {
-        systemMessageContainer.classList.add('bg-blue-100', 'text-blue-800', 'info');
+        systemMessageContainer.classList.add('info');
     }
     systemMessageContainer.classList.remove('hidden'); // Asegura que el mensaje sea visible
 }
@@ -78,54 +78,87 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
 
-    // Campos ocultos para Formspree (se mantendrán por si decides usarlos para el envío de información a Formspree,
-    // pero el pago con Stripe los hace menos relevantes para el flujo de checkout directo).
+    // Campos ocultos para Formspree
     const orderDetailsHidden = document.getElementById('orderDetailsHidden');
     const orderTotalHidden = document.getElementById('orderTotalHidden');
 
-    // --- Funciones de la Barra de Búsqueda ---
+    // --- Elementos para controlar la visibilidad de las secciones ---
+    const mainStoreContent = document.querySelector('.store-main-content'); // El contenedor de productos y bienvenida
+    const cartSummarySection = document.getElementById('cartSummarySection'); // La sección del carrito
+    const viewCartBtn = document.getElementById('viewCartBtn'); // El icono del carrito en el header
+    const homeLink = document.getElementById('homeLink'); // El enlace "Inicio" en el header
 
+    // --- Funciones para mostrar/ocultar secciones ---
+    function showStoreContent() {
+        mainStoreContent.style.display = 'block';
+        cartSummarySection.style.display = 'none';
+        checkoutFormContainer.style.display = 'none'; // Asegura que el formulario de checkout esté oculto
+        checkoutBtn.style.display = 'block'; // Asegura que el botón "Proceder al Pago" esté visible al volver a la tienda
+
+        // Asegúrate de que el botón de proceder al pago esté en su estado inicial
+        checkoutBtn.disabled = cart.length === 0;
+        checkoutBtn.style.backgroundColor = cart.length === 0 ? '#383838' : '';
+        checkoutBtn.style.cursor = cart.length === 0 ? 'not-allowed' : 'pointer';
+    }
+
+    function showCartSummary() {
+        mainStoreContent.style.display = 'none';
+        cartSummarySection.style.display = 'block';
+        checkoutFormContainer.style.display = 'none'; // Asegura que el formulario de envío se oculte al mostrar el carrito
+        checkoutBtn.style.display = 'block'; // Asegura que el botón "Proceder al Pago" esté visible al mostrar el carrito
+
+        // Al mostrar el carrito, si hay items, habilita el botón de checkout
+        checkoutBtn.disabled = cart.length === 0;
+        checkoutBtn.style.backgroundColor = cart.length === 0 ? '#383838' : '';
+        checkoutBtn.style.cursor = cart.length === 0 ? 'not-allowed' : 'pointer';
+    }
+
+    // --- Funciones de la Barra de Búsqueda ---
     function filterProducts() {
         const searchTerm = searchInput.value.toLowerCase().trim();
+        // Solo aplica el filtro si estamos en la vista de productos
+        if (mainStoreContent.style.display === 'block') {
+            productCards.forEach(card => {
+                const productTitle = card.querySelector('.product-title-epic').textContent.toLowerCase();
+                const productType = card.querySelector('.product-type-epic').textContent.toLowerCase();
+                const productKeywords = card.dataset.keywords ? card.dataset.keywords.toLowerCase() : '';
 
-        productCards.forEach(card => {
-            const productTitle = card.querySelector('.product-title').textContent.toLowerCase();
-            const productDescription = card.querySelector('.product-description').textContent.toLowerCase();
-            const productKeywords = card.dataset.keywords ? card.dataset.keywords.toLowerCase() : '';
-
-            if (productTitle.includes(searchTerm) ||
-                productDescription.includes(searchTerm) ||
-                productKeywords.includes(searchTerm)) {
-                card.style.display = 'flex'; // Usar 'flex' si tu CSS lo define así
-            } else {
-                card.style.display = 'none';
-            }
-        });
+                if (productTitle.includes(searchTerm) ||
+                    productType.includes(searchTerm) ||
+                    productKeywords.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     }
 
     // --- Funciones del Carrito ---
-
     function updateCartDisplay() {
         cartItemsContainer.innerHTML = '';
         let total = 0;
+        let itemCount = 0;
 
         if (cart.length === 0) {
             emptyCartMessage.style.display = 'block';
-            checkoutBtn.disabled = true; // Deshabilita el botón de pago si el carrito está vacío
-            checkoutBtn.style.backgroundColor = '#cccccc'; // Estilo para botón deshabilitado
+            checkoutBtn.disabled = true;
+            checkoutBtn.style.backgroundColor = '#383838';
             checkoutBtn.style.cursor = 'not-allowed';
+            checkoutFormContainer.style.display = 'none'; // Oculta el formulario de envío si el carrito se vacía
         } else {
             emptyCartMessage.style.display = 'none';
-            checkoutBtn.disabled = false; // Habilita el botón de pago
-            checkoutBtn.style.backgroundColor = ''; // Restablece el estilo
+            checkoutBtn.disabled = false;
+            checkoutBtn.style.backgroundColor = '';
             checkoutBtn.style.cursor = 'pointer';
 
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
+                itemCount += item.quantity;
 
                 const cartItemDiv = document.createElement('div');
-                cartItemDiv.classList.add('cart-item'); // Asegúrate de que 'ventas.css' tenga estilos para .cart-item
+                cartItemDiv.classList.add('cart-item');
                 cartItemDiv.innerHTML = `
                     <div class="item-details">
                         <span>${item.name}</span> x ${item.quantity}
@@ -140,9 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         cartTotalSpan.textContent = `$ ${total.toLocaleString('es-CO')} COP`;
+        document.getElementById('cartItemCount').textContent = itemCount;
 
-        // Actualizar campos ocultos para Formspree, si se siguen usando.
-        // Estos valores serán los que se envíen si el formulario de envío se activa.
         orderDetailsHidden.value = JSON.stringify(cart.map(item => ({
             name: item.name,
             quantity: item.quantity,
@@ -171,8 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             cart.push({ ...product, quantity: quantity });
         }
+        // ************************************************************
+        // CAMBIO AQUÍ: Mostrar mensaje de confirmación de añadido al carrito
+        showSystemMessage(`${quantity}x ${product.name} añadido al carrito.`, 'success');
+        setTimeout(hideSystemMessage, 3000); // Ocultar después de 3 segundos
+        // ************************************************************
         updateCartDisplay();
-        hideSystemMessage(); // Oculta mensajes si la adición fue exitosa
     }
 
     /**
@@ -180,17 +216,23 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {string} productId - ID del producto a eliminar.
      */
     function removeFromCart(productId) {
+        const removedItem = cart.find(item => item.id === productId);
         cart = cart.filter(item => item.id !== productId);
+        if (removedItem) {
+            // ************************************************************
+            // CAMBIO AQUÍ: Mostrar mensaje de confirmación de eliminado del carrito
+            showSystemMessage(`${removedItem.name} eliminado del carrito.`, 'info');
+            setTimeout(hideSystemMessage, 3000); // Ocultar después de 3 segundos
+            // ************************************************************
+        }
         updateCartDisplay();
-        hideSystemMessage(); // Oculta mensajes si la eliminación fue exitosa
     }
 
     // --- Event Listeners ---
 
-    // Añadir al Carrito
+    // Añadir al Carrito (listener en las tarjetas de productos)
     productCards.forEach(card => {
         const productId = card.dataset.productId;
-        // Asegúrate de que el ID del input de cantidad sea el correcto, si no es 'qty-PRODUCTID'
         const quantityInput = card.querySelector(`.product-quantity[id="qty-${productId}"]`);
         const addToCartBtn = card.querySelector('.add-to-cart-btn');
 
@@ -200,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Eliminar del Carrito
+    // Eliminar del Carrito (listener delegado en el contenedor del carrito)
     cartItemsContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('remove-item-btn') || event.target.closest('.remove-item-btn')) {
             const button = event.target.closest('.remove-item-btn');
@@ -220,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showSystemMessage('Redirigiendo a Stripe para completar el pago...', 'info');
         checkoutBtn.disabled = true; // Deshabilita el botón para evitar múltiples clics
-        checkoutBtn.style.backgroundColor = '#cccccc'; // Estilo para botón deshabilitado
+        checkoutBtn.style.backgroundColor = '#383838'; // Estilo para botón deshabilitado
         checkoutBtn.style.cursor = 'not-allowed';
 
         // Mapear los productos del carrito a lineItems de Stripe
@@ -274,18 +316,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Lógica para el formulario de envío (Formspree)
+    // Lógica para el formulario de envío (Formspree) - Ahora se activará por otro método, no directamente por "Proceder al Pago"
     shippingForm.addEventListener('submit', (event) => {
         event.preventDefault(); // Previene el envío normal del formulario
 
-        // Aquí puedes agregar validación adicional si lo deseas
-
-        // Muestra un mensaje de envío (esto es independiente del flujo de Stripe)
         orderMessage.classList.remove('success', 'error');
         orderMessage.textContent = 'Enviando tu orden... Recibirás las instrucciones de pago por correo.';
-        orderMessage.style.color = 'green'; // Puedes estilizar esto con tu CSS
+        orderMessage.style.color = 'green';
 
-        // Enviar el formulario a Formspree
         const formData = new FormData(shippingForm);
         fetch(shippingForm.action, {
             method: 'POST',
@@ -297,10 +335,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 orderMessage.textContent = '¡Orden enviada con éxito! Revisa tu correo para las instrucciones de pago.';
                 orderMessage.style.color = 'green';
-                shippingForm.reset(); // Limpia el formulario
-                // Opcional: podrías limpiar el carrito si el pedido se considera completado aquí
-                // cart = [];
-                // updateCartDisplay();
+                shippingForm.reset();
+                cart = []; // Vacía el carrito después de enviar la orden
+                updateCartDisplay(); // Actualiza la visualización del carrito
+                // Puedes decidir qué hacer aquí: volver a la tienda, mostrar un mensaje grande de éxito, etc.
+                // showStoreContent(); // Por ejemplo, volver a la vista de la tienda
             } else {
                 response.json().then(data => {
                     if (Object.hasOwnProperty.call(data, 'errors')) {
@@ -323,7 +362,20 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', filterProducts);
     searchBtn.addEventListener('click', filterProducts);
 
-    // Inicializar la vista del carrito y filtros (mostrar todos los productos al cargar)
+    // --- Event Listeners para la navegación entre secciones ---
+    viewCartBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Previene el salto de anclaje predeterminado
+        showCartSummary();
+    });
+
+    homeLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Previene el salto de anclaje predeterminado
+        showStoreContent();
+    });
+
+
+    // Inicializar la vista: mostrar el contenido de la tienda por defecto
+    showStoreContent();
     updateCartDisplay();
     filterProducts();
 });
