@@ -545,36 +545,48 @@ body {
     opacity: 0.7;
 }
 
-/* System Messages */
+/* ************************************************************ */
+/* --- ESTILOS PARA MENSAJES DEL SISTEMA (showSystemMessage) --- */
+/* ************************************************************ */
 .message-box {
-    padding: 10px 15px;
-    margin-top: 15px;
-    border-radius: 5px;
-    font-size: 0.95rem;
+    position: fixed; /* Lo fija en la pantalla */
+    top: 70px; /* Debajo del header */
+    left: 50%;
+    transform: translateX(-50%); /* Centra horizontalmente */
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    z-index: 1050; /* Por encima de la mayoría de los elementos */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     text-align: center;
-    border: 1px solid transparent;
+    min-width: 250px;
 }
 
 .message-box.hidden {
-    display: none;
+    opacity: 0;
+    pointer-events: none; /* Asegura que no sea interactivo cuando está oculto */
+    transform: translateX(-50%) translateY(-20px); /* Un pequeño desplazamiento hacia arriba al desaparecer */
 }
 
 .message-box.info {
-    background-color: #2c3e50;
+    background-color: #2c3e50; /* Azul oscuro suave */
     color: #e0e0e0;
-    border-color: #34495e;
+    border: 1px solid #34495e;
 }
 
 .message-box.success {
-    background-color: #28a745;
+    background-color: #28a745; /* Verde Bootstrap */
     color: white;
-    border-color: #218838;
+    border: 1px solid #218838;
 }
 
 .message-box.error {
-    background-color: #dc3545;
+    background-color: #dc3545; /* Rojo Bootstrap */
     color: white;
-    border-color: #c82333;
+    border: 1px solid #c82333;
 }
 
 
@@ -777,6 +789,12 @@ body {
     .checkout-form-container {
         padding: 20px;
     }
+
+    .message-box {
+        width: calc(100% - 40px); /* Ajusta el ancho en pantallas pequeñas */
+        left: 20px;
+        transform: translateX(0);
+    }
 }
 
 @media (max-width: 480px) {
@@ -811,5 +829,11 @@ body {
     }
     .products-carousel {
         padding: 10px 15px;
+    }
+
+    .message-box {
+        top: 65px; /* Ajuste para el header más pequeño */
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 }

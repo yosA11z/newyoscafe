@@ -10,7 +10,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-
+    <div id="systemMessageContainer" class="message-box hidden"></div>
     <header class="main-header">
         <div class="header-content-wrapper container">
             <a href="#" class="logo-link">
@@ -24,94 +24,94 @@
                 <button id="searchBtn"><i class="fas fa-search"></i></button>
             </div>
             <div class="header-icons">
-                <a href="#cartSummary" class="cart-icon-link" id="viewCartBtn"> <i class="fas fa-shopping-cart cart-icon"></i>
+                <a href="#cartSummary" class="cart-icon-link" id="viewCartBtn">
+                    <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cartItemCount">0</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <div class="main-content-wrapper container">
-        <main class="store-main-content"> <section class="hero-banner">
-                <h2 class="hero-title">¡Bienvenido a Yoscafé!</h2>
-                <p class="hero-subtitle">Descubre la esencia del café colombiano en cada taza.</p>
-                <a href="#products-section" class="hero-button">Explorar Productos</a>
-            </section>
-            <section class="store-section featured-products-section" id="products-section">
-                <div class="section-header-epic">
-                    <h2 class="section-title-epic">Principales Productos <i class="fas fa-chevron-right"></i></h2>
-                </div>
+    <main class="main-content-wrapper container">
+        <section id="storeMainContent" class="store-main-content">
+            <div class="hero-banner">
+                <h1 class="hero-title">El Aroma de la Excelencia</h1>
+                <p class="hero-subtitle">Descubre la tradición y calidad en cada grano de café Yoscafé. Tu experiencia, nuestro compromiso.</p>
+                <a href="#featuredProducts" class="hero-button">Explora nuestros productos</a>
+            </div>
 
+            <section class="store-section" id="featuredProducts">
+                <div class="section-header-epic">
+                    <h2 class="section-title-epic">Cafés Destacados <i class="fas fa-fire"></i></h2>
+                </div>
                 <div class="products-carousel">
                     <div class="product-card" data-product-id="classic" data-keywords="clásico, tradicional, medio, suave, chocolate, frutos secos, tostado">
                         <img src="Yoscafe.png" alt="Café Yoscafé Clásico" class="product-image-epic">
                         <div class="product-info-epic">
-                            <p class="product-type-epic">Café de Origen</p>
-                            <h3 class="product-title-epic">Café Yoscafé Clásico</h3>
+                            <h3 class="product-type-epic">Blend Tradicional</h3>
+                            <h2 class="product-title-epic">Café Yoscafé Clásico</h2>
                             <p class="product-price-epic">$ 25.000 COP</p>
                             <div class="quantity-control">
                                 <label for="qty-classic">Cantidad:</label>
-                                <input type="number" id="qty-classic" value="1" min="1" class="product-quantity">
+                                <input type="number" id="qty-classic" class="product-quantity" value="1" min="1">
                             </div>
-                            <button class="add-to-cart-btn">Añadir al Carrito</button>
+                            <button class="add-to-cart-btn">Agregar al Carrito</button>
                         </div>
                     </div>
 
                     <div class="product-card" data-product-id="premium" data-keywords="premium, selección, especial, fuerte, intenso, frutal, acidez, floral, exótico">
                         <img src="Yoscafe_bolsa.png" alt="Café Yoscafé Premium Selección" class="product-image-epic">
                         <div class="product-info-epic">
-                            <p class="product-type-epic">Café de Especialidad</p>
-                            <h3 class="product-title-epic">Café Yoscafé Premium Selección</h3>
+                            <h3 class="product-type-epic">Origen Especial</h3>
+                            <h2 class="product-title-epic">Café Yoscafé Premium Selección</h2>
                             <p class="product-price-epic">$ 40.000 COP</p>
                             <div class="quantity-control">
                                 <label for="qty-premium">Cantidad:</label>
-                                <input type="number" id="qty-premium" value="1" min="1" class="product-quantity">
+                                <input type="number" id="qty-premium" class="product-quantity" value="1" min="1">
                             </div>
-                            <button class="add-to-cart-btn">Añadir al Carrito</button>
+                            <button class="add-to-cart-btn">Agregar al Carrito</button>
                         </div>
                     </div>
 
                     <div class="product-card" data-product-id="decaf" data-keywords="descafeinado, suave, sin cafeína, noche, ligero, tranquilo">
                         <img src="Yoscafe_tarro.png" alt="Café Yoscafé Descafeinado" class="product-image-epic">
                         <div class="product-info-epic">
-                            <p class="product-type-epic">Café Descafeinado</p>
-                            <h3 class="product-title-epic">Café Yoscafé Descafeinado</h3>
+                            <h3 class="product-type-epic">Sin Cafeína</h3>
+                            <h2 class="product-title-epic">Café Yoscafé Descafeinado</h2>
                             <p class="product-price-epic">$ 30.000 COP</p>
                             <div class="quantity-control">
                                 <label for="qty-decaf">Cantidad:</label>
-                                <input type="number" id="qty-decaf" value="1" min="1" class="product-quantity">
+                                <input type="number" id="qty-decaf" class="product-quantity" value="1" min="1">
                             </div>
-                            <button class="add-to-cart-btn">Añadir al Carrito</button>
+                            <button class="add-to-cart-btn">Agregar al Carrito</button>
                         </div>
                     </div>
                 </div>
             </section>
-        </main>
+        </section>
 
-        <section class="cart-summary-section" id="cartSummarySection" style="display:none;"> <h2>Tu Orden</h2>
+        <section id="cartSummarySection" class="cart-summary-section" style="display: none;">
+            <h2>Tu Carrito de Compras</h2>
             <div id="cartItems" class="cart-items">
-                <p class="empty-cart-message">Tu carrito está vacío. ¡Añade tu café favorito!</p>
-            </div>
-            <div class="cart-total">
-                <p>Total: <span id="cartTotal">$ 0 COP</span></p>
-            </div>
-            <div id="systemMessageContainer" class="hidden message-box"></div>
+                <p class="empty-cart-message">Tu carrito está vacío. ¡Añade algunos productos!</p>
+                </div>
+            <div class="cart-total">Total: <span id="cartTotal">$ 0 COP</span></div>
             <button id="checkoutBtn" class="checkout-btn" disabled>Proceder al Pago</button>
 
-            <div id="checkoutFormContainer" class="checkout-form-container" style="display:none;">
-                <h3>Datos para Envío y Pago</h3>
-                <form id="shippingForm" action="https://formspree.io/f/meokeybg" method="POST">
+            <div id="checkoutFormContainer" class="checkout-form-container" style="display: none;">
+                <h3>Detalles de Envío (Pago por Transferencia/Contra Entrega)</h3>
+                <form id="shippingForm" action="https://formspree.io/f/mqazoqee" method="POST">
                     <div class="form-group">
-                        <label for="shippingName">Nombre Completo:</label>
-                        <input type="text" id="shippingName" name="Nombre_Completo" required>
+                        <label for="fullName">Nombre Completo:</label>
+                        <input type="text" id="fullName" name="Nombre_Completo" required>
                     </div>
                     <div class="form-group">
-                        <label for="shippingEmail">Email:</label>
-                        <input type="email" id="shippingEmail" name="Email_Cliente" required>
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="Correo_Electronico" required>
                     </div>
                     <div class="form-group">
-                        <label for="shippingPhone">Teléfono:</label>
-                        <input type="tel" id="shippingPhone" name="Telefono_Cliente" placeholder="Ej: 3101234567" required>
+                        <label for="phoneNumber">Teléfono:</label>
+                        <input type="tel" id="phoneNumber" name="Telefono" pattern="[0-9]{10}" placeholder="Ej: 3101234567" required>
                     </div>
                     <div class="form-group">
                         <label for="shippingAddress">Dirección de Envío:</label>
@@ -132,7 +132,9 @@
                 </form>
             </div>
         </section>
-    </div> <footer class="main-footer">
+    </main>
+
+    <footer class="main-footer">
         <p>&copy; 2025 Yoscafé Colombia. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:info@yoscafe.com">info@yoscafe.com</a></p>
     </footer>
